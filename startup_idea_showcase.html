@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Startup Idea Showcase</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      color-scheme: light dark;
+      --bg: #f3f6fb;
+      --bg-elevated: rgba(255, 255, 255, 0.72);
+      --bg-strong: rgba(255, 255, 255, 0.9);
+      --bg-soft: rgba(246, 248, 252, 0.88);
+      --text: #0f172a;
+      --text-soft: #475569;
+      --text-muted: #64748b;
+      --border: rgba(15, 23, 42, 0.1);
+      --border-strong: rgba(15, 23, 42, 0.18);
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+      --hero-surface: rgba(9, 14, 29, 0.9);
+      --hero-text: #f8fafc;
+      --hero-soft: rgba(226, 232, 240, 0.78);
+      --accent: #2563eb;
+      --accent-2: #0ea5e9;
+      --accent-3: #14b8a6;
+      --accent-warm: #f97316;
+      --accent-glow: rgba(37, 99, 235, 0.28);
+      --pill: rgba(37, 99, 235, 0.1);
+      --input: rgba(255, 255, 255, 0.7);
+      --mesh-1: rgba(37, 99, 235, 0.18);
+      --mesh-2: rgba(20, 184, 166, 0.18);
+      --mesh-3: rgba(249, 115, 22, 0.13);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #06101c;
+        --bg-elevated: rgba(8, 17, 31, 0.72);
+        --bg-strong: rgba(9, 18, 32, 0.88);
+        --bg-soft: rgba(13, 24, 42, 0.9);
+        --text: #e5eefc;
+        --text-soft: #bed0ea;
+        --text-muted: #8da3c0;
+        --border: rgba(148, 163, 184, 0.16);
+        --border-strong: rgba(148, 163, 184, 0.28);
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.45);
+        --hero-surface: rgba(6, 10, 20, 0.82);
+        --hero-text: #f8fbff;
+        --hero-soft: rgba(203, 213, 225, 0.76);
+        --accent: #60a5fa;
+        --accent-2: #22d3ee;
+        --accent-3: #2dd4bf;
+        --accent-warm: #fb923c;
+        --accent-glow: rgba(96, 165, 250, 0.28);
+        --pill: rgba(96, 165, 250, 0.12);
+        --input: rgba(10, 19, 33, 0.82);
+        --mesh-1: rgba(59, 130, 246, 0.22);
+        --mesh-2: rgba(45, 212, 191, 0.18);
+        --mesh-3: rgba(251, 146, 60, 0.14);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, var(--mesh-1), transparent 28%),
+        radial-gradient(circle at 88% 14%, var(--mesh-2), transparent 24%),
+        radial-gradient(circle at 70% 78%, var(--mesh-3), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 26%),
+        var(--bg);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 34rem;
+      height: 34rem;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      top: -8rem;
+      right: -10rem;
+      background: linear-gradient(135deg, var(--accent-glow), transparent 75%);
+    }
+
+    body::after {
+      bottom: -12rem;
+      left: -8rem;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.18), transparent 72%);
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      padding: 32px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 45%),
+        linear-gradient(145deg, rgba(37, 99, 235, 0.18), rgba(8, 145, 178, 0.06) 42%, rgba(249, 115, 22, 0.1) 100%),
+        var(--hero-surface);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 22rem;
+      height: 22rem;
+      top: -10rem;
+      left: -8rem;
+      background: radial-gradient(circle, rgba(96, 165, 250, 0.28), transparent 68%);
+    }
+
+    .hero::after {
+      width: 18rem;
+      height: 18rem;
+      bottom: -8rem;
+      right: -4rem;
+      background: radial-gradient(circle, rgba(45, 212, 191, 0.22), transparent 70%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      color: var(--hero-text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.75);
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 5.1rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      color: var(--hero-text);
+      max-width: 9.5ch;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      background: linear-gradient(90deg, #ffffff 0%, #bfe9ff 35%, #90f7ec 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 18px;
+      max-width: 58ch;
+      font-size: 1.03rem;
+      line-height: 1.75;
+      color: var(--hero-soft);
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 24px; }
+    .post-btn, .ghost-btn, .filter-btn, .upvote-btn, .comment-btn, .btn-cancel, .btn-submit {
+      font-family: inherit;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .post-btn, .ghost-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 16px;
+      font-size: 0.96rem;
+      font-weight: 800;
+    }
+    .post-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      color: #f8fbff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 18px 35px rgba(37, 99, 235, 0.28);
+    }
+    .ghost-btn {
+      padding: 13px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--hero-text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+    }
+    .post-btn:hover, .ghost-btn:hover, .filter-btn:hover, .upvote-btn:hover, .btn-cancel:hover, .btn-submit:hover { transform: translateY(-1px); }
+
+    .hero-side { display: grid; gap: 14px; align-self: stretch; }
+    .signal-panel, .stats-bar, .workspace {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 18px;
+      backdrop-filter: blur(18px);
+    }
+    .signal-panel { display: grid; gap: 12px; }
+    .signal-kicker { font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(226, 232, 240, 0.7); font-weight: 700; }
+    .signal-title { color: var(--hero-text); font-family: 'Syne', sans-serif; font-size: 1.45rem; line-height: 1.1; }
+    .signal-copy { color: var(--hero-soft); line-height: 1.65; font-size: 0.95rem; }
+    .mini-orbit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px; }
+    .mini-orbit span { display: block; padding: 10px 12px; border-radius: 16px; text-align: center; color: var(--hero-text); font-size: 0.82rem; font-weight: 700; background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .stats-bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.6rem; color: var(--hero-text); }
+    .stat-label { margin-top: 4px; color: rgba(226, 232, 240, 0.72); font-size: 0.82rem; line-height: 1.35; }
+    .workspace { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .workspace-copy { color: var(--hero-soft); font-size: 0.92rem; line-height: 1.5; max-width: 30ch; }
+    .workspace-badge { border-radius: 18px; padding: 10px 12px; min-width: 92px; text-align: center; color: var(--hero-text); background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(37, 99, 235, 0.16)); border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.86rem; font-weight: 800; }
+
+    .main-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; margin-top: 22px; }
+    .controls-panel, .feed-panel, .sidebar-card, .modal {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+    .controls-panel { border-radius: 28px; padding: 18px; }
+    .controls-top { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 14px; }
+    .controls-title { font-family: 'Syne', sans-serif; font-size: 1.35rem; color: var(--text); }
+    .controls-sub { margin-top: 4px; color: var(--text-soft); font-size: 0.94rem; }
+    .live-indicator { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 999px; background: var(--pill); color: var(--accent); font-size: 0.84rem; font-weight: 800; white-space: nowrap; }
+    .live-indicator::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 14%, transparent); }
+    .search-wrap { position: relative; margin-bottom: 14px; }
+    .search-wrap input, .field input, .field textarea, .field select {
+      width: 100%; border: 1px solid var(--border); background: var(--input); color: var(--text); font-family: inherit;
+      font-size: 0.96rem; outline: none; transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .search-wrap input { border-radius: 18px; font-weight: 600; padding: 15px 18px 15px 48px; }
+    .search-wrap input::placeholder, .field input::placeholder, .field textarea::placeholder { color: var(--text-muted); }
+    .search-wrap input:focus, .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: color-mix(in srgb, var(--accent) 65%, white);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+    }
+    .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-muted); pointer-events: none; }
+    .filter-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { border: 1px solid var(--border); background: var(--bg-strong); color: var(--text-soft); padding: 10px 14px; border-radius: 999px; font-size: 0.9rem; font-weight: 800; cursor: pointer; }
+    .filter-btn.active { color: #f8fbff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-color: transparent; box-shadow: 0 12px 26px rgba(37, 99, 235, 0.18); }
+    .feed-panel { border-radius: 30px; padding: 18px; margin-top: 18px; }
+    .feed { display: grid; gap: 14px; }
+    .card {
+      position: relative; overflow: hidden; border-radius: 24px; border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 50%), var(--bg-strong);
+      padding: 18px; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; animation: rise 0.36s ease both;
+    }
+    .card::before { content: ''; position: absolute; inset: -60% auto auto -18%; width: 180px; height: 180px; background: radial-gradient(circle, rgba(37, 99, 235, 0.12), transparent 70%); pointer-events: none; }
+    .card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .card-top { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .avatar { width: 44px; height: 44px; border-radius: 16px; display: grid; place-items: center; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 800; flex-shrink: 0; border: 1px solid rgba(255, 255, 255, 0.16); }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-author { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--text); font-size: 0.95rem; font-weight: 800; }
+    .card-time { color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
+    .card-category { padding: 4px 10px; border-radius: 999px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.02em; }
+    .card-title { font-family: 'Syne', sans-serif; font-size: 1.35rem; line-height: 1.18; color: var(--text); margin-bottom: 8px; }
+    .card-desc { color: var(--text-soft); font-size: 0.98rem; line-height: 1.75; margin-bottom: 14px; max-width: 64ch; }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .tag { padding: 6px 10px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-soft); font-size: 0.78rem; font-weight: 700; }
+    .card-footer { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border); }
+    .upvote-btn, .comment-btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; }
+    .upvote-btn { border: 1px solid var(--border); background: var(--bg-soft); color: var(--text-soft); padding: 10px 14px; }
+    .upvote-btn.voted { color: #f8fbff; border-color: transparent; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22); }
+    .comment-btn { border: 1px solid transparent; background: transparent; color: var(--text-muted); padding: 10px 2px; }
+    .trending-badge { margin-left: auto; padding: 7px 11px; border-radius: 999px; background: rgba(249, 115, 22, 0.12); color: var(--accent-warm); border: 1px solid rgba(249, 115, 22, 0.2); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.03em; }
+    .sidebar { display: grid; gap: 18px; }
+    .sidebar-card { border-radius: 28px; padding: 20px; }
+    .sidebar-kicker { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .sidebar-title { margin-top: 10px; font-family: 'Syne', sans-serif; font-size: 1.45rem; line-height: 1.15; color: var(--text); }
+    .sidebar-copy { margin-top: 10px; color: var(--text-soft); line-height: 1.7; font-size: 0.95rem; }
+    .pulse-list, .idea-prompts, .form-grid { display: grid; gap: 10px; margin-top: 16px; }
+    .pulse-item { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 18px; background: var(--bg-soft); border: 1px solid var(--border); }
+    .pulse-item strong { color: var(--text); font-size: 0.92rem; }
+    .pulse-item span { color: var(--text-muted); font-size: 0.82rem; font-weight: 700; }
+    .prompt-chip { padding: 12px 14px; border-radius: 18px; border: 1px solid var(--border); background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(20, 184, 166, 0.04)); color: var(--text-soft); font-weight: 700; line-height: 1.5; }
+    .modal-bg { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(2, 8, 23, 0.48); backdrop-filter: blur(12px); z-index: 20; }
+    .modal-bg.open { display: flex; }
+    .modal { width: min(100%, 560px); border-radius: 30px; padding: 24px; background: var(--bg-strong); }
+    .modal h2 { font-family: 'Syne', sans-serif; font-size: 1.9rem; color: var(--text); }
+    .modal-sub { margin-top: 8px; color: var(--text-soft); line-height: 1.65; }
+    .field label { display: block; margin-bottom: 8px; color: var(--text-soft); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .field input, .field textarea, .field select { border-radius: 16px; padding: 14px 16px; resize: vertical; }
+    .field textarea { min-height: 110px; }
+    .modal-actions { display: flex; gap: 12px; margin-top: 18px; }
+    .btn-cancel, .btn-submit { flex: 1; border-radius: 16px; padding: 14px 16px; font-size: 0.96rem; font-weight: 800; cursor: pointer; }
+    .btn-cancel { border: 1px solid var(--border); background: var(--bg-soft); color: var(--text-soft); }
+    .btn-submit { border: none; color: #f8fbff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 18px 32px rgba(37, 99, 235, 0.24); }
+    .empty { text-align: center; padding: 44px 18px; border-radius: 24px; background: var(--bg-soft); border: 1px dashed var(--border-strong); color: var(--text-soft); }
+    .empty-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    @media (max-width: 1024px) { .hero-grid, .main-grid { grid-template-columns: 1fr; } .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 720px) {
+      .app-shell { width: min(100% - 20px, 1200px); padding-top: 10px; }
+      .hero, .controls-panel, .feed-panel, .sidebar-card, .modal { border-radius: 24px; }
+      .hero { padding: 22px; }
+      .controls-top, .workspace, .modal-actions { flex-direction: column; align-items: stretch; }
+      .stats-bar, .sidebar, .mini-orbit { grid-template-columns: 1fr; }
+      .trending-badge { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag">IdeaForge</div>
+          <h1>Where bold ideas <span>become visible</span></h1>
+          <p class="hero-sub">A brighter idea board for student founders. Share early concepts, surface momentum fast, and let great experiments stand out in both light and dark mode.</p>
+          <div class="hero-actions">
+            <button class="post-btn" onclick="openModal()">+ Share your idea</button>
+            <button class="ghost-btn" onclick="document.getElementById('feed-panel').scrollIntoView({ behavior: 'smooth' })">Explore the feed</button>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="signal-panel">
+            <div class="signal-kicker">Launch Signal</div>
+            <div class="signal-title">Fresh concepts need a stage with real contrast.</div>
+            <div class="signal-copy">Clear type, layered surfaces, and a more cinematic layout make every pitch feel sharper and easier to scan.</div>
+            <div class="mini-orbit"><span>Concept</span><span>Validate</span><span>Build</span></div>
+          </div>
+          <div class="stats-bar">
+            <div class="stat"><div class="stat-num" id="stat-ideas">12</div><div class="stat-label">ideas posted</div></div>
+            <div class="stat"><div class="stat-num" id="stat-votes">248</div><div class="stat-label">total upvotes</div></div>
+            <div class="stat"><div class="stat-num" id="stat-builders">34</div><div class="stat-label">active builders</div></div>
+          </div>
+          <div class="workspace"><div class="workspace-copy">A board designed to feel alive, responsive, and creator-first.</div><div class="workspace-badge">Live theme</div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <main>
+        <section class="controls-panel">
+          <div class="controls-top">
+            <div><div class="controls-title">Idea stream</div><div class="controls-sub">Search, filter, and surface the strongest campus ideas quickly.</div></div>
+            <div class="live-indicator">Auto light/dark</div>
+          </div>
+          <div class="search-wrap"><span class="search-icon">?</span><input type="text" id="search" placeholder="Search ideas, themes, or tags..." oninput="render()" /></div>
+          <div class="filter-row">
+            <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+            <button class="filter-btn" onclick="setFilter('Tech', this)">Tech</button>
+            <button class="filter-btn" onclick="setFilter('Health', this)">Health</button>
+            <button class="filter-btn" onclick="setFilter('Social', this)">Social</button>
+            <button class="filter-btn" onclick="setFilter('Climate', this)">Climate</button>
+            <button class="filter-btn" onclick="setFilter('trending', this)">Trending</button>
+          </div>
+        </section>
+        <section class="feed-panel" id="feed-panel"><div class="feed" id="feed"></div></section>
+      </main>
+      <aside class="sidebar">
+        <section class="sidebar-card">
+          <div class="sidebar-kicker">Momentum</div>
+          <div class="sidebar-title">What people are backing right now</div>
+          <div class="sidebar-copy">A quick pulse on the kinds of startup ideas getting attention across the board.</div>
+          <div class="pulse-list">
+            <div class="pulse-item"><strong>AI + campus tools</strong><span>High energy</span></div>
+            <div class="pulse-item"><strong>Climate habits</strong><span>Rising fast</span></div>
+            <div class="pulse-item"><strong>Peer marketplaces</strong><span>Steady demand</span></div>
+          </div>
+        </section>
+        <section class="sidebar-card">
+          <div class="sidebar-kicker">Prompt Deck</div>
+          <div class="sidebar-title">Use these to sharpen a rough concept</div>
+          <div class="idea-prompts">
+            <div class="prompt-chip">What habit or workflow on campus still feels strangely broken?</div>
+            <div class="prompt-chip">If your idea works in one dorm, how does it scale across the city?</div>
+            <div class="prompt-chip">What proof would convince your first 20 users to stay?</div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="modal-bg" onclick="handleBgClick(event)">
+    <div class="modal">
+      <h2>Launch a new idea</h2>
+      <p class="modal-sub">Share something ambitious, specific, and easy for others to rally around.</p>
+      <div class="form-grid">
+        <div class="field"><label for="f-name">Your name</label><input type="text" id="f-name" placeholder="e.g. Arjun Sharma" /></div>
+        <div class="field"><label for="f-title">Idea title</label><input type="text" id="f-title" placeholder="One clear, memorable line" /></div>
+        <div class="field"><label for="f-desc">Description</label><textarea id="f-desc" placeholder="What does it solve, who is it for, and why now?"></textarea></div>
+        <div class="field">
+          <label for="f-cat">Category</label>
+          <select id="f-cat">
+            <option>Tech</option>
+            <option>Health</option>
+            <option>Social</option>
+            <option>Climate</option>
+            <option>Education</option>
+            <option>Finance</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-tags">Tags</label><input type="text" id="f-tags" placeholder="AI, SaaS, marketplace" /></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-submit" onclick="submitIdea()">Launch idea</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CAT_COLORS = {
+      Tech: { bg: 'rgba(37, 99, 235, 0.14)', color: '#2563eb' },
+      Health: { bg: 'rgba(16, 185, 129, 0.14)', color: '#059669' },
+      Social: { bg: 'rgba(236, 72, 153, 0.14)', color: '#db2777' },
+      Climate: { bg: 'rgba(20, 184, 166, 0.14)', color: '#0f766e' },
+      Education: { bg: 'rgba(245, 158, 11, 0.16)', color: '#d97706' },
+      Finance: { bg: 'rgba(139, 92, 246, 0.15)', color: '#7c3aed' }
+    };
+
+    const AVATARS = [
+      { bg: 'linear-gradient(135deg, rgba(37,99,235,0.22), rgba(14,165,233,0.14))', color: '#2563eb' },
+      { bg: 'linear-gradient(135deg, rgba(16,185,129,0.22), rgba(45,212,191,0.14))', color: '#0f766e' },
+      { bg: 'linear-gradient(135deg, rgba(236,72,153,0.22), rgba(244,114,182,0.14))', color: '#db2777' },
+      { bg: 'linear-gradient(135deg, rgba(245,158,11,0.22), rgba(251,146,60,0.14))', color: '#d97706' },
+      { bg: 'linear-gradient(135deg, rgba(124,58,237,0.22), rgba(59,130,246,0.14))', color: '#6d28d9' }
+    ];
+
+    let ideas = [
+      { id: 1, author: 'Priya R.', title: 'CampusCarbon', desc: 'A student-run carbon tracking app that gamifies sustainability on campus, rewarding cycling, composting, and low-waste choices with shared challenges.', category: 'Climate', tags: ['Sustainability', 'Gamification', 'Campus'], votes: 87, comments: 14, trending: true, time: '2h ago', avatar: 0, voted: false },
+      { id: 2, author: 'Keanu M.', title: 'MedBuddy AI', desc: 'An AI-powered symptom journaling tool for students with limited health access. It tracks patterns over time and flags when it may be smart to seek care.', category: 'Health', tags: ['AI', 'Healthcare', 'Students'], votes: 64, comments: 9, trending: true, time: '4h ago', avatar: 1, voted: false },
+      { id: 3, author: 'Sophie L.', title: 'SkillSwap', desc: 'A peer-to-peer exchange where students trade time and skills directly, from coding help to music lessons, without money changing hands.', category: 'Social', tags: ['Marketplace', 'Community', 'Education'], votes: 51, comments: 22, trending: false, time: '6h ago', avatar: 2, voted: false },
+      { id: 4, author: 'Dev P.', title: 'LectureLens', desc: 'Upload any lecture recording and get AI-generated summaries, flashcards, and quiz prompts in seconds, with exports for study workflows.', category: 'Tech', tags: ['AI', 'EdTech', 'Productivity'], votes: 43, comments: 7, trending: false, time: '1d ago', avatar: 3, voted: false },
+      { id: 5, author: 'Amara K.', title: 'ThriftCircle', desc: 'A hyperlocal thrift network for dorm move-ins and move-outs so useful items stay on campus instead of getting thrown away.', category: 'Social', tags: ['Sustainability', 'P2P', 'Campus'], votes: 39, comments: 11, trending: false, time: '1d ago', avatar: 4, voted: false },
+      { id: 6, author: 'Lucas T.', title: 'NutriNest', desc: 'A budget meal planner that syncs dining hall menus with nearby store deals and turns them into realistic weekly food plans.', category: 'Health', tags: ['Nutrition', 'Budget', 'Wellness'], votes: 34, comments: 5, trending: false, time: '2d ago', avatar: 0, voted: false }
+    ];
+
+    let nextId = 10;
+    let activeFilter = 'all';
+    function setFilter(filter, button) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+      render();
+    }
+
+    function getFiltered() {
+      const query = (document.getElementById('search')?.value || '').trim().toLowerCase();
+      return ideas
+        .filter((idea) => {
+          if (activeFilter === 'trending') return idea.trending;
+          if (activeFilter !== 'all') return idea.category === activeFilter;
+          return true;
+        })
+        .filter((idea) => {
+          if (!query) return true;
+          return idea.title.toLowerCase().includes(query) || idea.desc.toLowerCase().includes(query) || idea.author.toLowerCase().includes(query) || idea.tags.some((tag) => tag.toLowerCase().includes(query));
+        })
+        .sort((a, b) => b.votes - a.votes);
+    }
+
+    function upvote(id) {
+      const idea = ideas.find((item) => item.id === id);
+      if (!idea) return;
+      if (idea.voted) {
+        idea.votes -= 1;
+        idea.voted = false;
+      } else {
+        idea.votes += 1;
+        idea.voted = true;
+      }
+      updateStats();
+      render();
+    }
+
+    function updateStats() {
+      const totalVotes = ideas.reduce((sum, item) => sum + item.votes, 0);
+      document.getElementById('stat-ideas').textContent = ideas.length;
+      document.getElementById('stat-votes').textContent = totalVotes;
+      document.getElementById('stat-builders').textContent = 34 + (ideas.length - 6);
+    }
+
+    function render() {
+      const feed = document.getElementById('feed');
+      const list = getFiltered();
+      if (!list.length) {
+        feed.innerHTML = '<div class="empty"><div class="empty-icon">*</div>No ideas match that search yet. Try another angle.</div>';
+        return;
+      }
+
+      feed.innerHTML = list.map((idea) => {
+        const avatar = AVATARS[idea.avatar % AVATARS.length];
+        const category = CAT_COLORS[idea.category] || { bg: 'rgba(148, 163, 184, 0.16)', color: '#64748b' };
+        const initials = idea.author.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+        return `
+          <article class="card">
+            <div class="card-top">
+              <div class="avatar" style="background:${avatar.bg}; color:${avatar.color}">${initials}</div>
+              <div class="card-meta">
+                <div class="card-author">
+                  ${idea.author}
+                  <span class="card-category" style="background:${category.bg}; color:${category.color}">${idea.category}</span>
+                  <span class="card-time">${idea.time}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-title">${idea.title}</div>
+            <div class="card-desc">${idea.desc}</div>
+            <div class="card-tags">${idea.tags.map((tag) => `<span class="tag">#${tag}</span>`).join('')}</div>
+            <div class="card-footer">
+              <button class="upvote-btn ${idea.voted ? 'voted' : ''}" onclick="upvote(${idea.id})"><span>+</span> ${idea.votes}</button>
+              <button class="comment-btn" type="button">Comments ${idea.comments}</button>
+              ${idea.trending ? '<span class="trending-badge">Trending</span>' : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function openModal() { document.getElementById('modal-bg').classList.add('open'); }
+    function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+    function handleBgClick(event) {
+      if (event.target === document.getElementById('modal-bg')) closeModal();
+    }
+
+    function submitIdea() {
+      const name = document.getElementById('f-name').value.trim();
+      const title = document.getElementById('f-title').value.trim();
+      const desc = document.getElementById('f-desc').value.trim();
+      const category = document.getElementById('f-cat').value;
+      const rawTags = document.getElementById('f-tags').value;
+      if (!name || !title || !desc) {
+        alert('Please fill in your name, idea title, and description.');
+        return;
+      }
+
+      const tags = rawTags.split(',').map((tag) => tag.trim()).filter(Boolean).slice(0, 4);
+      ideas.unshift({
+        id: nextId++, author: name, title, desc, category, tags,
+        votes: 1, comments: 0, trending: false, time: 'just now',
+        avatar: Math.floor(Math.random() * AVATARS.length), voted: true
+      });
+
+      ['f-name', 'f-title', 'f-desc', 'f-tags'].forEach((id) => { document.getElementById(id).value = ''; });
+      closeModal();
+      updateStats();
+      activeFilter = 'all';
+      document.querySelectorAll('.filter-btn').forEach((button, index) => { button.classList.toggle('active', index === 0); });
+      render();
+    }
+
+    updateStats();
+    render();
+  </script>
+</body>
+</html>
+
