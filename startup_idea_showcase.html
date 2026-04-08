@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IdeaForge Live</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 
     :root {
       color-scheme: light dark;
@@ -63,7 +63,7 @@
 
     body {
       min-height: 100vh;
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Inter', sans-serif;
       color: var(--text);
       background:
         radial-gradient(circle at 12% 16%, var(--mesh-1), transparent 28%),
@@ -225,6 +225,8 @@
 <body>
   <div class="shell">
     <section class="hero">
+      <div class="hero-particles" id="hero-particles"></div>
+      <div class="idea-bubbles" id="idea-bubbles"></div>
       <div class="hero-grid">
         <div>
           <div class="hero-tag">IdeaForge Live</div>
@@ -312,6 +314,15 @@
         </section>
       </aside>
     </div>
+  </div>
+
+  <div class="fab" id="fab">
+    <div class="fab-menu">
+      <button class="fab-mini" type="button" onclick="openPreset('Upload')">Upload</button>
+      <button class="fab-mini" type="button" onclick="openPreset('Draft')">Draft</button>
+      <button class="fab-mini" type="button" onclick="openPreset('Quick Idea')">Quick Idea</button>
+    </div>
+    <button class="fab-main" type="button" onclick="toggleFab()"><span class="plus">+</span><span class="label">Share Idea</span></button>
   </div>
 
   <div class="modal-bg" id="modal-bg" onclick="handleBgClick(event)">
@@ -487,7 +498,7 @@
         const initials = idea.author.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
         const isTrending = scoreIdea(idea) >= 60;
         return `
-          <article class="card">
+          <article class="card ${isTrending ? 'trending-glow' : ''}" draggable="true" data-id="${idea.id}">
             <div class="card-top">
               <div class="avatar" style="background:${avatar.bg}; color:${avatar.color}">${initials}</div>
               <div class="card-meta">
@@ -506,6 +517,9 @@
             </div>
           </article>`;
       }).join('');
+      bindRipples();
+      bindDragAndDrop();
+      animateProgressBars();
     }
 
     function openModal() { document.getElementById('modal-bg').classList.add('open'); }
