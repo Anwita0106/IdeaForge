@@ -107,9 +107,6 @@ The goal of **IdeaForge Live** is to create a collaborative environment where st
 IdeaForge-Live/
 │
 ├── startup.html        # Main website file
-├── style.css           # Styling file
-├── script.js           # JavaScript logic
-├── assets/             # Images and icons
 └── README.md           # Project documentation
 ```
 
