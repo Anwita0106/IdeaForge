@@ -155,25 +155,7 @@ This is the recommended flow when demonstrating the project:
 
 ---
 
-# 📸 Screenshots
 
-(Add your screenshots here)
-
-Example:
-
-```
-## Homepage
-[Add homepage screenshot]
-
-## Idea Submission
-[Add form screenshot]
-
-## Live Feed
-[Add feed screenshot]
-
-## Dark Mode
-[Add dark theme screenshot]
-```
 
 ---
 
