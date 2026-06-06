@@ -100,18 +100,7 @@ The goal of **IdeaForge Live** is to create a collaborative environment where st
 
 * AI-powered idea generation system
 
----
 
-# 📂 Project Structure
-
-```
-IdeaForge-Live/
-│
-├── startup.html        # Main website file
-└── README.md           # Project documentation
-```
-
----
 
 # 🧪 How to Run the Project
 
