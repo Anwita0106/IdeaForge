@@ -60,7 +60,11 @@ Switch seamlessly between dark and light modes for a personalized experience.
 ![Light Theme](./screenshots/light_theme.png.jpeg)
 
 ---
+##  Live Demo
 
+Website: https://idea-forge-cy.vercel.app
+
+API Docs: https://ideaforge-1-msuo.onrender.com/docs
 
 ---
 
