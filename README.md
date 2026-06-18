@@ -1,22 +1,7 @@
 # IdeaForge
 
-IdeaForge has been converted from a static, hard-coded prototype into a real
-startup idea validation platform: a FastAPI + PostgreSQL backend now powers
-every idea, analysis, and recommendation you see in the (unchanged) UI.
+IdeaForge helps founders move from inspiration to execution by generating, validating, and refining startup ideas. It combines AI-powered analysis, market categorization, competitor discovery, validation scoring, and exportable reports in a seamless experience.Built with a FastAPI backend and a dynamic validation engine, it delivers real-time recommendations while preserving the original user experience.
 
-```
-IdeaForge/
-├── frontend/   the original UI (index.html), now talking to a real API
-└── backend/    FastAPI app, validation engine, and external API integrations
-```
-
-The visual design, layout, colors, fonts, icons, animations, and every user
-flow are untouched - the first 1,194 lines of `frontend/index.html` (the
-entire `<head>`, all CSS, and the full `<body>` markup) are byte-for-byte
-identical to the original file. Only the `<script>` logic was changed, and
-only to replace data with real API calls.
-
----
 
 
 ---
