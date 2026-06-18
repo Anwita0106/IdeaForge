@@ -61,71 +61,79 @@ Switch seamlessly between dark and light modes for a personalized experience.
 
 ---
 
-## 1. What changed, and why
 
-Per the brief, **every frontend change below was necessary to connect the UI
-to a real backend** - none of them are visual/design changes. Nothing in the
-`<head>`, `<style>`, or `<body>` markup was touched.
+---
 
-| Change | Why it was necessary |
+## Features
+
+- **Submit any startup idea** through a simple form (title, description,
+  category, tags) and get an instant validation analysis.
+- **Validation score (0-100)** - a transparent score based on description
+  clarity, how crowded the market looks, differentiation signals, and
+  completeness.
+- **Similar startups & competitors** - pulled from live data sources when
+  configured (Crunchbase, Product Hunt, Google Custom Search, Clearbit), with
+  a built-in fallback so the app always returns useful results.
+- **Market category classification**, **suggested improvements**,
+  **differentiation opportunities**, and **market gaps** for every idea.
+- **Generate AI Idea** - synthesizes a brand-new concept and analyzes it in
+  one click.
+- **Live feed** with search, filtering by category/tag, sorting (top, newest,
+  most discussed), trending highlights, voting, commenting, saving, and
+  shareable idea links.
+- **Light/dark theme**, animated hero, and a fully responsive layout.
+
+---
+
+## Tech stack
+
+| Layer | Stack |
 |---|---|
-| Removed `defaultIdeas`, `AI_IDEAS`, `ideaLinks`, `similarProjects`, `aiSuggestions`, `categoryLinks` hard-coded objects | These were the static "fake data" the brief asked to remove. There's no way to make the app dynamic while keeping them. |
-| Added `API_BASE_URL` + `fetchIdeasFromServer()` | The feed now loads from `GET /ideas` instead of a hard-coded array. |
-| `submitIdea()` now calls `POST /ideas/save` (was: pushed a local object into the array) | This is literally what "process the idea dynamically" + "remove hard-coded data" requires - the idea has to be sent somewhere real. |
-| `generateAiIdea()` now calls `POST /ideas/generate` (was: picked from a 4-item hard-coded array) | Same reasoning - it now generates and analyzes a genuinely new idea server-side instead of cycling through 4 fixed templates. |
-| Card rendering now reads `idea.similarStartups`, `idea.competitors`, `idea.marketCategory`, `idea.suggestedImprovements`, `idea.differentiationOpportunities`, `idea.marketGaps` from the API response | This is the actual "replace static recommendations with dynamic ones" requirement. The HTML/CSS structure of these blocks is identical to the original `category-links` / `ai-suggestions` components - only the data source changed, and components are simply reused for the additional fields. |
-| `" Success Score"` now displays the backend's computed `validationScore` | Same visual element, now showing a real, explainable score instead of `votes*2 + comments`. |
-| `handleHashChange()` now falls back to `GET /ideas/{id}` if a shared idea isn't already loaded | Makes shared links (`#idea-123`) work for ideas outside the currently loaded list - this is what `GET /ideas/{id}` is for. |
-| `saveIdeas()` / `localStorage` idea persistence removed | The database is now the source of truth, so writing the whole list to `localStorage` on every click would just be a stale duplicate. Theme preference still uses `localStorage`, unchanged. |
-| One line added near the top of `<body>`'s script: `const API_BASE_URL = "%VITE_API_BASE_URL%";` | This is the single point where the deployed backend URL gets wired in at build time (see "Environment variables" below). Everything else in the script is unchanged in structure. |
-
-**Things intentionally left exactly as-is:** `TAG_TIPS`, `CAT_COLORS`,
-`AVATARS` (pure styling constants, not "idea data"), the live tag-suggestion
-helper while typing a description, drag-to-reorder, the typing animation,
-cursor glow, ripple effects, the theme toggle, and all CSS/markup.
-
-**Known simplification:** voting, commenting, bookmarking ("Save"), and
-"Collaborate" counts are currently session-only (in-memory) interactions, not
-written back to the database, since the brief's four required endpoints
-don't include vote/comment endpoints. Wiring these up for real would need a
-lightweight user/session model plus a couple of small additional endpoints -
-a natural next step, not included here so as to not invent endpoints beyond
-what was specified.
+| Frontend | HTML, CSS, vanilla JavaScript, served/built with Vite |
+| Backend | FastAPI (Python) |
+| Database | PostgreSQL |
+| External data (optional) | Crunchbase, Product Hunt, Google Custom Search, Clearbit |
+| Deployment | Frontend on Vercel, backend on Render/Railway, database on Supabase/Neon |
 
 ---
 
-## 2. How idea analysis works
+## Project structure
 
-`POST /ideas/analyze` and `POST /ideas/save` both run every submitted idea
-through `backend/app/services/orchestrator.py`, which:
-
-1. Calls Crunchbase, Product Hunt, and Google Custom Search (each is a no-op
-   if its API key isn't configured, or if the call fails for any reason -
-   external outages never break the response).
-2. Fills in / supplements those results with a small built-in knowledge base
-   (`app/services/knowledge_base.py`) keyed by **category and keyword**, not
-   by literal idea titles - so it works for any idea you type, not just a
-   few demo names.
-3. Computes a transparent 0-100 `validationScore` from description clarity,
-   how crowded the market looks, differentiation language, and completeness
-   (`app/services/heuristics.py`).
-4. Generates `suggestedImprovements`, `differentiationOpportunities`, and
-   `marketGaps` from a template-based heuristic engine (none of the four
-   listed providers actually generate advice - they only return raw
-   company/listing data, so this part is always IdeaForge's own logic).
-
-**Without any API keys configured, the app is fully functional** - you'll
-get real, varied analysis driven by the heuristic engine. Add API keys to
-get live company data layered in on top.
+```
+IdeaForge/
+├── frontend/
+│   ├── index.html          the application UI
+│   ├── package.json
+│   ├── vite.config.js
+│   └── .env.example
+└── backend/
+    ├── main.py              FastAPI app entry point
+    ├── requirements.txt
+    ├── .env.example
+    ├── Procfile
+    └── app/
+        ├── config.py        environment-driven settings
+        ├── database.py      PostgreSQL connection/session
+        ├── models.py        Idea database model
+        ├── schemas.py        request/response models
+        ├── seed.py           optional demo data
+        ├── routers/ideas.py  API endpoints
+        └── services/
+            ├── orchestrator.py    runs the full analysis pipeline
+            ├── heuristics.py      scoring & suggestion generation
+            ├── knowledge_base.py  fallback market/company data
+            ├── idea_generator.py  powers "Generate AI Idea"
+            └── external/          Crunchbase, Product Hunt, Google, Clearbit clients
+```
 
 ---
 
-## 3. Local setup
+## Getting started
 
 ### Prerequisites
 - Node.js 18+ and npm
 - Python 3.11+
-- A PostgreSQL database (local install, or a free Supabase/Neon project - see §5)
+- A PostgreSQL database (local, or a free Supabase/Neon project)
 
 ### Backend
 
@@ -136,16 +144,16 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 cp .env.example .env
-# edit .env: set DATABASE_URL to your Postgres instance (local/Supabase/Neon)
+# edit .env and set DATABASE_URL to your Postgres instance
 
 uvicorn main:app --reload
-# API now running at http://localhost:8000
-# interactive docs at http://localhost:8000/docs
 ```
 
-The app creates its `ideas` table automatically on first startup. If you
-want a few demo ideas to start with, set `SEED_DEMO_DATA=true` in `.env`, or
-run it manually:
+- API: `http://localhost:8000`
+- Interactive docs: `http://localhost:8000/docs`
+
+The `ideas` table is created automatically on first run. To start with a few
+demo ideas, either set `SEED_DEMO_DATA=true` in `.env`, or run:
 
 ```bash
 python -m app.seed
@@ -158,99 +166,51 @@ cd frontend
 npm install
 
 cp .env.example .env
-# edit .env: VITE_API_BASE_URL=http://localhost:8000
+# edit .env and set VITE_API_BASE_URL=http://localhost:8000
 
 npm run dev
-# open the URL Vite prints (usually http://localhost:5173)
 ```
 
-That's it - same UI, now backed by a real API. Submitting an idea or
-clicking "Generate AI Idea" hits the backend and persists to Postgres.
+Open the URL Vite prints (usually `http://localhost:5173`).
 
 ---
 
-## 4. Environment variables
+## Environment variables
 
-### Backend (`backend/.env`, see `backend/.env.example`)
+### Backend (`backend/.env`)
 
-| Variable | Required | Notes |
+| Variable | Required | Description |
 |---|---|---|
-| `DATABASE_URL` | yes | Postgres connection string (local, Supabase, or Neon) |
-| `ALLOWED_ORIGINS` | recommended | Comma-separated list of frontend origins allowed to call the API |
-| `SEED_DEMO_DATA` | no | `true` to auto-insert a few demo ideas into an empty database |
+| `DATABASE_URL` | yes | PostgreSQL connection string |
+| `ALLOWED_ORIGINS` | recommended | Comma-separated list of allowed frontend origins (CORS) |
+| `SEED_DEMO_DATA` | no | `true` to insert demo ideas into an empty database on startup |
 | `CRUNCHBASE_API_KEY` | no | Enables live Crunchbase organization search |
 | `PRODUCTHUNT_API_TOKEN` | no | Enables live Product Hunt lookups |
 | `GOOGLE_API_KEY` + `GOOGLE_CSE_ID` | no | Enables live Google Custom Search |
 | `CLEARBIT_API_KEY` | no | Enables Clearbit company enrichment |
 
-### Frontend (`frontend/.env`, see `frontend/.env.example`)
+### Frontend (`frontend/.env`)
 
-| Variable | Required | Notes |
+| Variable | Required | Description |
 |---|---|---|
-| `VITE_API_BASE_URL` | yes | URL of the running backend, e.g. `http://localhost:8000` locally or your Render/Railway URL in production |
+| `VITE_API_BASE_URL` | yes | URL of the backend API |
+
+All four external API keys are optional - without them, IdeaForge's built-in
+heuristic engine still returns a complete, useful analysis for any idea.
 
 ---
 
-## 5. Deployment
-
-### Database → Supabase or Neon
-
-1. Create a free project at [supabase.com](https://supabase.com) or
-   [neon.tech](https://neon.tech).
-2. Copy the Postgres connection string they give you (Supabase: *Project
-   Settings → Database → Connection string → URI*; Neon: *Dashboard →
-   Connection Details*).
-3. Put it in `DATABASE_URL` for the backend (locally in `.env`, and in your
-   host's environment variables once deployed).
-
-### Backend → Render or Railway
-
-Both platforms can deploy directly from this `backend/` folder.
-
-**Render:**
-1. New → Web Service → connect your repo, set root directory to `backend`.
-2. Build command: `pip install -r requirements.txt`
-3. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT` (already in
-   the included `Procfile`, so Render should pick it up automatically).
-4. Add the environment variables from §4 in the Render dashboard
-   (`DATABASE_URL`, `ALLOWED_ORIGINS` set to your Vercel frontend URL, and any
-   external API keys you have).
-
-**Railway:**
-1. New Project → Deploy from repo → set root directory to `backend`.
-2. Railway auto-detects Python; it will use the `Procfile`/`requirements.txt`
-   as-is.
-3. Add the same environment variables in the Railway dashboard.
-
-Either way, once deployed you'll have a URL like
-`https://ideaforge-api.onrender.com` - that's your `VITE_API_BASE_URL`.
-
-### Frontend → Vercel
-
-1. New Project → import your repo → set root directory to `frontend`.
-2. Vercel auto-detects Vite (build command `npm run build`, output `dist`).
-3. Add an environment variable `VITE_API_BASE_URL` set to your deployed
-   backend URL.
-4. Deploy. Once it's live, go back to your backend's `ALLOWED_ORIGINS`
-   environment variable and set it to your new Vercel URL (then redeploy the
-   backend) so CORS allows the request.
-
----
-
-## 6. API reference
-
-Interactive docs are auto-generated by FastAPI at `/docs` (Swagger) and
-`/redoc` once the backend is running.
+## API reference
 
 | Endpoint | Description |
 |---|---|
-| `POST /ideas/analyze` | Analyze any idea (title, description, category, tags) without saving it. Returns the full validation analysis. |
-| `POST /ideas/save` | Analyze **and persist** a new idea. This is what the "Share Your Idea" form calls. |
-| `GET /ideas` | List all saved ideas, newest first (filtering/sorting/search stay client-side, unchanged from the original UI). |
-| `GET /ideas/{id}` | Fetch a single idea by id. |
-| `POST /ideas/generate` *(bonus)* | Synthesizes, analyzes, and saves a new AI-generated idea in one call - powers the "Generate AI Idea" button. |
+| `POST /ideas/analyze` | Analyze an idea (title, description, category, tags) without saving it |
+| `POST /ideas/save` | Analyze and persist a new idea - used by the "Share Your Idea" form |
+| `GET /ideas` | List all saved ideas, newest first |
+| `GET /ideas/{id}` | Fetch a single idea by id |
+| `POST /ideas/generate` | Synthesize, analyze, and save a new AI-generated idea - powers "Generate AI Idea" |
 
-Example request:
+Example:
 
 ```bash
 curl -X POST http://localhost:8000/ideas/save \
@@ -264,34 +224,33 @@ curl -X POST http://localhost:8000/ideas/save \
   }'
 ```
 
+Full interactive documentation is available at `/docs` once the backend is
+running.
+
 ---
 
-## 7. Project structure
+## Deployment
 
-```
-backend/
-├── main.py                          FastAPI app entry point
-├── requirements.txt
-├── .env.example
-├── Procfile                         for Render/Railway
-├── app/
-│   ├── config.py                    settings loaded from environment variables
-│   ├── database.py                  SQLAlchemy engine/session (PostgreSQL)
-│   ├── models.py                    Idea ORM model
-│   ├── schemas.py                   Pydantic request/response models
-│   ├── seed.py                      optional demo-data seeding script
-│   ├── routers/ideas.py             the 4 required endpoints + /ideas/generate
-│   └── services/
-│       ├── orchestrator.py          combines external APIs + heuristics
-│       ├── heuristics.py            validation scoring & text generation
-│       ├── knowledge_base.py        generalized fallback company/category data
-│       ├── idea_generator.py        powers "Generate AI Idea"
-│       └── external/                Crunchbase, Product Hunt, Google, Clearbit
-└── ...
+### Database - Supabase or Neon
+Create a free project, copy the Postgres connection string, and set it as
+`DATABASE_URL` on your backend host.
 
-frontend/
-├── index.html                       the original UI - unchanged markup/CSS
-├── package.json                     npm install / npm run dev / npm run build
-├── vite.config.js
-└── .env.example
-```
+### Backend - Render or Railway
+Deploy from the `backend/` folder. Build command: `pip install -r
+requirements.txt`. Start command: `uvicorn main:app --host 0.0.0.0 --port
+$PORT` (already configured in the included `Procfile`). Set the environment
+variables listed above in your host's dashboard.
+
+### Frontend - Vercel
+Deploy from the `frontend/` folder. Vercel auto-detects Vite (build command
+`npm run build`, output directory `dist`). Set `VITE_API_BASE_URL` to your
+deployed backend URL as an environment variable.
+
+After deploying, update `ALLOWED_ORIGINS` on the backend to include your
+Vercel domain, then redeploy the backend so CORS allows requests from it.
+
+---
+
+## Author
+
+Anwita Padhi
