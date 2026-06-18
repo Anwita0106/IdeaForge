@@ -96,8 +96,7 @@ API Docs: https://ideaforge-1-msuo.onrender.com/docs
 | Frontend | HTML, CSS, vanilla JavaScript, served/built with Vite |
 | Backend | FastAPI (Python) |
 | Database | PostgreSQL |
-| External data (optional) | Crunchbase, Product Hunt, Google Custom Search, Clearbit |
-| Deployment | Frontend on Vercel, backend on Render/Railway, database on Supabase/Neon |
+| Deployment | Frontend on Vercel, backend on Render, database on Neon |
 
 ---
 
@@ -127,7 +126,6 @@ IdeaForge/
             ├── heuristics.py      scoring & suggestion generation
             ├── knowledge_base.py  fallback market/company data
             ├── idea_generator.py  powers "Generate AI Idea"
-            └── external/          Crunchbase, Product Hunt, Google, Clearbit clients
 ```
 
 ---
