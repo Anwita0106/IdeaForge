@@ -31,13 +31,6 @@ The landing page showcasing trending startup ideas, validation metrics, and the 
 
 ---
 
-###  AI Idea Generation
-
-Generate unique startup concepts instantly using the built-in AI idea generator.
-
-![AI Idea Generation](./screenshots/ai_idea.png.jpeg)
-
----
 
 ###  Launch & Validate Ideas
 
@@ -47,6 +40,16 @@ Submit an idea and receive a validation score, market insights, competitor analy
 
 ---
 
+
+###  Featured Startup Ideas
+
+Explore curated and AI-validated startup ideas from the community feed.
+
+![Featured Ideas](./screenshots/after_idea_launch.png.jpeg)
+
+---
+
+
 ###  Export Ideas as PDF
 
 Download and share startup ideas as professionally formatted PDF reports for collaboration, presentations, and feedback.
@@ -55,19 +58,21 @@ Download and share startup ideas as professionally formatted PDF reports for col
 
 ---
 
+
+###  AI Idea Generation
+
+Generate unique startup concepts instantly using the built-in AI idea generator.
+
+![AI Idea Generation](./screenshots/ai_idea.png.jpeg)
+
+---
+
+
 ###  Light Theme Support
 
 Switch seamlessly between dark and light modes for a personalized experience.
 
 ![Light Theme](./screenshots/light_theme.png.jpeg)
-
----
-
-###  Featured Startup Ideas
-
-Explore curated and AI-validated startup ideas from the community feed.
-
-![Featured Ideas](./screenshots/after_idea_launch.png.jpeg)
 
 ---
 
