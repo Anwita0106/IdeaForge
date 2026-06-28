@@ -8,6 +8,7 @@ IdeaForge helps founders move from inspiration to execution by generating, valid
 
 ## Overview
 
+
 ###  Home Screen
 
 The landing page showcasing trending startup ideas, validation metrics, and the live idea feed.
