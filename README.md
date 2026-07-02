@@ -99,7 +99,9 @@ API Docs: https://ideaforge-1-msuo.onrender.com/docs
 | Database | PostgreSQL |
 | Deployment | Frontend on Vercel, backend on Render, database on Neon |
 
+
 ---
+
 
 ## Project structure
 
