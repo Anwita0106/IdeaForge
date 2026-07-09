@@ -13,6 +13,7 @@ IdeaForge helps founders move from inspiration to execution by generating, valid
 
 The landing page showcasing trending startup ideas, validation metrics, and the live idea feed.
 
+
 ![Home Screen](./screenshots/home_screen.png.jpeg)
 
 ---
