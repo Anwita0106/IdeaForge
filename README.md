@@ -2,8 +2,6 @@
 
 IdeaForge helps founders move from inspiration to execution by generating, validating, and refining startup ideas. It combines AI-powered analysis, market categorization, competitor discovery, validation scoring, and exportable reports in a seamless experience.Built with a FastAPI backend and a dynamic validation engine, it delivers real-time recommendations while preserving the original user experience.
 
-
-
 ---
 
 ## Overview
