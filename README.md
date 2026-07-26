@@ -253,7 +253,6 @@ Vercel domain, then redeploy the backend so CORS allows requests from it.
 ---
 
 ## Author
-
 Anwita Padhi
 
 
