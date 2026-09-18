@@ -250,6 +250,8 @@ deployed backend URL as an environment variable.
 After deploying, update `ALLOWED_ORIGINS` on the backend to include your
 Vercel domain, then redeploy the backend so CORS allows requests from it.
 
+
+
 ---
 
 ## Author
