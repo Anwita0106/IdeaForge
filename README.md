@@ -13,7 +13,7 @@ The landing page showcasing trending startup ideas, validation metrics, and the 
 
 ![Home Screen](./screenshots/home_screen.png.jpeg)
 
----
+---                   
 
 
 ###  Launch & Validate Ideas
